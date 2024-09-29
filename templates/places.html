@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Packages</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .package {
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        .package img {
+            max-width: 100%;
+            height: auto;
+        }
+        .details {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Available Travel Packages</h1>
+
+<div>
+    {% for package in packages %}
+    <div class="package">
+        <h2>{{ package[0] }}</h2> <!-- City name -->
+        <img src="{{ package[1] }}" alt="{{ package[0] }} image" width="300"> <!-- Image URL -->
+        <div class="details">
+            <p><strong>Attractions:</strong> {{ package[2] }}</p> <!-- Attractions -->
+            <p><strong>Duration:</strong> {{ package[3] }} days</p> <!-- Number of days -->
+            <p><strong>Price:</strong> ${{ package[4] }}</p> <!-- Price -->
+        </div>
+    </div>
+    <hr>
+    {% endfor %}
+</div>
+
+</body>
+</html>
+
