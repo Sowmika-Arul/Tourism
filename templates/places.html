@@ -5,42 +5,164 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Travel Packages</title>
     <style>
+        /* Base styles */
         body {
             font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            line-height: 1.6;
         }
+
+        h1 {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 36px;
+            color: #333;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Enhanced styling for the travel packages */
+        .package-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
         .package {
-            border: 1px solid #ddd;
-            padding: 15px;
-            margin: 15px 0;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            width: 100%;
         }
+
+        /* Set a fixed height for images */
         .package img {
-            max-width: 100%;
-            height: auto;
+            width: 100%;
+            height: 250px; /* Adjust this as necessary for image size consistency */
+            object-fit: cover;
+            display: block;
         }
+
+        .package h2 {
+            font-size: 24px;
+            color: #fff;
+            margin: 15px;
+            position: absolute;
+            bottom: 10px;
+            left: 15px;
+            z-index: 2;
+        }
+
         .details {
-            margin-top: 10px;
+            padding: 15px;
+            background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent black */
+            color: white;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
+
+        /* Show details on hover */
+        .package:hover .details {
+            opacity: 1;
+        }
+
+        /* Keep the image visible with black shadow */
+        .package:hover img {
+            opacity: 0.4;
+        }
+
+        /* Package hover effects */
+        .package:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .details p {
+            margin: 10px 0 0 0; /* Remove margin between attractions and details */
+        }
+
+        .details p strong {
+            color: #2980b9;
+        }
+
+        /* Style for attractions list */
+        .attractions-list {
+            list-style-type: disc; /* Use bullet points */
+            padding: 0 0 0 20px; /* Left padding for the list */
+            margin: 5px 0; /* Remove extra margin */
+            text-align: left; /* Align text to the left */
+            width: 100%; /* Make the list take the full width */
+        }
+
+        /* Styling for price */
+        .details p:last-child {
+            font-size: 18px;
+            font-weight: bold;
+            color: #e74c3c;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 28px;
+            }
+
+            .package h2 {
+                font-size: 20px;
+            }
+
+            .details p {
+                font-size: 14px;
+            }
+        }
+
     </style>
 </head>
 <body>
 
-<h1>Available Travel Packages</h1>
+    <h1>Available Travel Packages</h1>
 
-<div>
-    {% for package in packages %}
-    <div class="package">
-        <h2>{{ package[0] }}</h2> <!-- City name -->
-        <img src="{{ package[1] }}" alt="{{ package[0] }} image" width="300"> <!-- Image URL -->
-        <div class="details">
-            <p><strong>Attractions:</strong> {{ package[2] }}</p> <!-- Attractions -->
-            <p><strong>Duration:</strong> {{ package[3] }} days</p> <!-- Number of days -->
-            <p><strong>Price:</strong> ${{ package[4] }}</p> <!-- Price -->
+    <div class="container">
+        <div class="package-grid">
+            {% for package in packages %}
+            <div class="package">
+                <img src="{{ package[1] }}" alt="{{ package[0] }} image">
+                <h2>{{ package[0] }}</h2> <!-- City name -->
+                <div class="details">
+                    <p><strong>Attractions:</strong></p>
+                    <ul class="attractions-list">
+                        {% for attraction in package[2].split(',') %}
+                        <li>{{ attraction.strip() }}</li> <!-- List each attraction -->
+                        {% endfor %}
+                    </ul>
+                    <p><strong>Duration:</strong> {{ package[3] }} days</p> <!-- Number of days -->
+                    <p><strong>Price:</strong> ${{ package[4] }}</p> <!-- Price -->
+                </div>
+            </div>
+            {% endfor %}
         </div>
     </div>
-    <hr>
-    {% endfor %}
-</div>
 
 </body>
 </html>
-
