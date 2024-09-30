@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, redirect, url_for, session, flash
 import mysql.connector
 import secrets
 
@@ -29,6 +29,17 @@ def get_travel_packages():
     connection.close()
     return packages
 
+# Fetch user from the database
+def get_user(username, password):
+    connection = get_db_connection()
+    cursor = connection.cursor()
+    query = "SELECT * FROM users WHERE username = %s AND password = %s"
+    cursor.execute(query, (username, password))
+    user = cursor.fetchone()
+    cursor.close()
+    connection.close()
+    return user
+
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -38,6 +49,29 @@ def index():
 def show_travel_packages():
     travel_packages = get_travel_packages()  # Fetch data from the DB
     return render_template('places.html', packages=travel_packages)  # Pass data to the template
+
+# Route for user login
+@app.route('/login', methods=['POST'])
+def login():
+    username = request.form['username']
+    password = request.form['password']
+
+    # Validate user credentials
+    user = get_user(username, password)
+    if user:
+        session['username'] = username  # Store the username in session
+        flash('Login successful!', 'success')
+        return redirect(url_for('show_travel_packages'))  # Redirect to the travel packages page
+    else:
+        flash('Invalid username or password', 'danger')
+        return redirect(url_for('index'))  # Redirect back to the index page
+
+# Route to logout
+@app.route('/logout')
+def logout():
+    session.pop('username', None)  # Remove username from session
+    flash('You have been logged out.', 'info')
+    return redirect(url_for('index'))  # Redirect to the index page
 
 if __name__ == '__main__':
     app.run(debug=True)
