@@ -25,7 +25,7 @@
             width: 90%;
             max-width: 1200px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 5px;
         }
 
         .package-grid {
@@ -43,7 +43,8 @@
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             position: relative;
             width: 100%;
-            cursor: pointer; }
+            cursor: pointer; 
+        }
 
         
         .package img {
@@ -106,6 +107,7 @@
 
         .details p {
             margin: 10px 0; 
+            font-size: 20px;
         }
 
         .details p strong {
@@ -119,6 +121,7 @@
             margin: 5px 0;
             text-align: left; 
             width: 100%; 
+            font-size: 20px;
         }
 
         /* Styling for price */
@@ -190,13 +193,13 @@
                 <img src="{{ package[1] }}" alt="{{ package[0] }} image">
                 <h2>{{ package[0] }}</h2> 
                 <div class="details">
-                    <p><strong>Attractions:</strong></p>
+                    <p><strong>Hotel:</strong></p>
                     <ul class="attractions-list">
                         {% for attraction in package[2].split(',') %}
                         <li>{{ attraction.strip() }}</li>
                         {% endfor %}
                     </ul>
-                    <p><strong>Duration:</strong> {{ package[3] }} days</p> 
+                    <p><strong>Transport:</strong> {{ package[3] }} </p> 
                     <p><strong>Price:</strong> {{ package[4] }}</p> 
                 </div>
             </div>

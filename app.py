@@ -22,7 +22,7 @@ def get_db_connection():
 def get_travel_packages():
     connection = get_db_connection()
     cursor = connection.cursor()
-    query = "SELECT destination_name, image_url, highlights, total_days, amount FROM travel_packages"
+    query = "SELECT destination_name, image_url, hotel, transport, amount FROM travel_packages"
     cursor.execute(query)
     packages = cursor.fetchall()  # Fetch all rows from travel_packages table
     cursor.close()
