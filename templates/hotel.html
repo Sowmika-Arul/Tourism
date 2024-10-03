@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hotel Details</title>
     <style>
-        /* General body styling */
+
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
@@ -14,14 +14,13 @@
             padding: 0;
         }
 
-        /* Main container */
         h1 {
             text-align: center;
             color: #2c3e50;
             margin-top: 20px;
         }
 
-        /* Form Styling */
+    
         form {
             display: flex;
             justify-content: center;
@@ -50,7 +49,6 @@
             background-color: #3498db;
         }
 
-        /* Table Styling */
         table {
             width: 80%;
             margin: 0 auto;
@@ -179,9 +177,9 @@
                 <td>{{ hotel[7] }}</td>
                 <td>
                     <!-- Book Now Button -->
-                    <form method="POST" action="{{ url_for('book_hotel', hotel_name=hotel[0]) }}">
+                    <form method="GET" action="{{ url_for('book_hotel', hotel_name=hotel[0]) }}">
                         <button type="submit" class="book-btn">Book Now</button>
-                    </form>
+                    </form>                    
                 </td>
             </tr>
             {% endfor %}

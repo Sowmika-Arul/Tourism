@@ -1,4 +1,4 @@
-/* General Styles */
+
 * {
     margin: 0;
     padding: 0;
@@ -10,7 +10,6 @@ body, html {
     height: 100%;
 }
 
-/* Background Image and Hero Section */
 .hero {
     background-image: url('/static/img/travel.jpg');
     background-size: cover;
@@ -19,16 +18,15 @@ body, html {
     position: relative;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start; /* Start content a little lower */
+    justify-content: flex-start;
     align-items: center;
     text-align: center;
     color: white;
     z-index: 1;
     overflow: hidden;
-    padding-top: 120px; /* Add padding to move content lower */
+    padding-top: 120px; 
 }
 
-/* Adding a Black Shade Overlay on the Background Image */
 .hero::before {
     content: '';
     position: absolute;
@@ -36,18 +34,17 @@ body, html {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.6); /* Black overlay with 60% opacity */
-    z-index: -1; /* Keep it behind the content */
+    background: rgba(0, 0, 0, 0.6); 
+    z-index: -1; 
 }
 
-/* Transparent Navbar */
+
 .navbar {
-    position: fixed; /* Ensure navbar stays on top while scrolling */
+    position: fixed; 
     top: 0;
     width: 100%;
-    background: rgba(0, 0, 0, 0.6); /* Transparent black background */
-    padding: 20px 0;
-    z-index: 100; /* Ensure it stays above the content */
+    background: rgba(0, 0, 0, 0.6); 
+    z-index: 100; 
 }
 
 .navbar ul {
@@ -66,13 +63,8 @@ body, html {
     font-size: 18px;
 }
 
-.navbar ul li a:hover {
-    text-decoration: underline;
-}
-
-/* Main Content Area */
 .hero .content {
-    margin-top: 50px; /* Move the text and inputs further down */
+    margin-top: 50px; 
 }
 
 .hero .content h1 {
@@ -86,7 +78,6 @@ body, html {
     margin-bottom: 40px;
 }
 
-/* Input Dropdown Styles */
 .inputs {
     display: flex;
     gap: 20px;
@@ -108,11 +99,10 @@ body, html {
     background-color: rgba(255, 255, 255, 1);
 }
 
-/* Submit Button */
 .submit-btn {
     padding: 15px 30px;
     font-size: 18px;
-    background-color:rgb(249, 52, 52);
+    background-color:rgb(249, 193, 52);
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -120,11 +110,10 @@ body, html {
 }
 
 .submit-btn:hover {
-    background-color: rgba(255, 255, 255, 1);
+    background-color: rgb(227, 154, 17);
     transform: scale(1.05);
 }
 
-/* Responsive Design for Inputs */
 @media (max-width: 768px) {
     .navbar ul {
         flex-direction: column;

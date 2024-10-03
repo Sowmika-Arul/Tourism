@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book {{ hotel[0] }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/book_hotel.css') }}">
+</head>
+<body>
+    <h1>Book {{ hotel[0] }}</h1>
+    
+    <!-- Main container for image/details and form -->
+    <div class="container">
+        <!-- Left side: Image and details -->
+        <div class="hotel-details-container">
+            <img src="{{ hotel[8] }}" alt="Image of {{ hotel[0] }}" class="hotel-image"> <!-- Display hotel image -->
+            <div class="hotel-info">
+                <p><strong>Location:</strong> {{ hotel[1] }}</p>
+                <p><strong>Rating:</strong> {{ hotel[3] }}</p>
+                <p><strong>Amenities:</strong> {{ hotel[6] }}</p>
+            </div>
+        </div>
+        
+        <!-- Right side: Booking Form -->
+        <form method="POST">
+            <input type="text" name="customer_name" placeholder="Your Name" required>
+            <input type="email" name="email" placeholder="Your Email" required>
+            <input type="tel" name="phone" placeholder="Your Phone Number" required>
+            <input type="number" name="rooms" placeholder="Number of Rooms" required>
+            <input type="date" name="check_in_date" placeholder="Check-in Date" required>
+            <input type="date" name="check_out_date" placeholder="Check-out Date" required>
+            <button type="submit">Confirm Booking</button>
+        </form>
+    </div>
+
+    <p><a href="{{ url_for('show_hotel_details') }}">Back to Hotels</a></p>
+</body>
+</html>

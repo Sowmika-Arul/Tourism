@@ -112,13 +112,44 @@ def show_hotel_details():
     hotel_details = get_hotel_details(search_hotel, search_location)  # Fetch filtered hotel details
     return render_template('hotel.html', hotels=hotel_details)  # Pass data to the template
 
-@app.route('/book_hotel', methods=['POST'])
-def book_hotel():
-    hotel_name = request.form['hotel_name']
-    # Perform the booking logic here
-    flash(f'You have successfully booked {hotel_name}!', 'success')
-    return redirect(url_for('show_hotel_details'))
+# Fetch single hotel details from the database by hotel name
+def get_hotel_by_name(hotel_name):
+    connection = get_db_connection()
+    cursor = connection.cursor()
+    query = """
+        SELECT hotel_name, location, amount, rating, single_rooms_available, 
+               double_rooms_available, amenities, contact_info, image
+        FROM hotel_details WHERE hotel_name = %s
+    """
+    cursor.execute(query, (hotel_name,))
+    hotel = cursor.fetchone()  # Fetch the single row for the selected hotel
+    cursor.close()
+    connection.close()
+    return hotel
 
+# Route to handle hotel booking
+@app.route('/book_hotel/<hotel_name>', methods=['GET', 'POST'])
+def book_hotel(hotel_name):
+    # Fetch hotel details
+    hotel = get_hotel_by_name(hotel_name)
+    
+    if request.method == 'POST':
+        # Handle booking form submission here
+        customer_name = request.form['customer_name']
+        email = request.form['email']
+        phone = request.form['phone']
+        rooms = request.form['rooms']
+        check_in_date = request.form['check_in_date']
+        check_out_date = request.form['check_out_date']
+        
+        # Perform booking logic (store booking in the database, etc.)
+        # You might want to save check_in_date and check_out_date to your booking table in the database
+        flash(f'Booking confirmed for {hotel_name} from {check_in_date} to {check_out_date}.', 'success')
+        
+        return redirect(url_for('index'))  # Redirect to the homepage after booking confirmation
+    
+    # If the method is GET, render the booking page with hotel details
+    return render_template('book_hotel.html', hotel=hotel)
 
 if __name__ == '__main__':
     app.run(debug=True)
