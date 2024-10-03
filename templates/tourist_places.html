@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tourist Places</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/tourist_places.css') }}"> <!-- Link to your CSS file -->
+</head>
+<body>
+    <h1>Tourist Places</h1>
+    <div class="tourist-places-container">
+        {% for place in places %}
+        <div class="place-card">
+            <img src="{{ place[5] }}" alt="Image of {{ place[0] }}" class="place-image"> <!-- Display place image -->
+            <h2>{{ place[0] }}</h2> <!-- Place Name -->
+            <p>Location: {{ place[1] }}</p> <!-- Location -->
+            <p>Opening Time: {{ place[2] }}</p> <!-- Opening Time -->
+            <p>Closing Time: {{ place[3] }}</p> <!-- Closing Time -->
+            <p>Rating: {{ place[4] }}</p> <!-- Rating -->
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>

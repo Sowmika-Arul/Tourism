@@ -13,12 +13,12 @@ h1 {
 }
 
 .container {
-    display: flex; /* Use Flexbox for layout */
-    justify-content: space-between; /* Space between the left and right sections */
-    align-items: stretch; /* Stretch items to match the height */
+    display: flex; 
+    justify-content: space-between; 
+    align-items: stretch; 
     background-color: white;
     padding: 20px;
-    border-radius: 8px; /* Rounded corners for the container */
+    border-radius: 8px; 
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Shadow for depth */
     margin: 0 auto; /* Center the container */
     max-width: 800px; /* Set a max width for the container */

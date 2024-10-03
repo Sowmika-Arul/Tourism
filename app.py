@@ -40,6 +40,7 @@ def get_user(username, password):
     connection.close()
     return user
 
+# Fetch hotel details with search functionality
 def get_hotel_details(search_hotel=None, search_location=None):
     connection = get_db_connection()
     cursor = connection.cursor()
@@ -69,6 +70,31 @@ def get_hotel_details(search_hotel=None, search_location=None):
     connection.close()
     return hotels
 
+# Fetch single hotel details from the database by hotel name
+def get_hotel_by_name(hotel_name):
+    connection = get_db_connection()
+    cursor = connection.cursor()
+    query = """
+        SELECT hotel_name, location, amount, rating, single_rooms_available, 
+               double_rooms_available, amenities, contact_info, image
+        FROM hotel_details WHERE hotel_name = %s
+    """
+    cursor.execute(query, (hotel_name,))
+    hotel = cursor.fetchone()  # Fetch the single row for the selected hotel
+    cursor.close()
+    connection.close()
+    return hotel
+
+# Fetch tourist places from the database
+def get_tourist_places():
+    connection = get_db_connection()
+    cursor = connection.cursor()
+    query = "SELECT place_name, location, opening_time, closing_time, rating, image_url FROM tourist_places"
+    cursor.execute(query)
+    places = cursor.fetchall()  # Fetch all rows from tourist_places table
+    cursor.close()
+    connection.close()
+    return places
 
 @app.route('/')
 def index():
@@ -112,21 +138,6 @@ def show_hotel_details():
     hotel_details = get_hotel_details(search_hotel, search_location)  # Fetch filtered hotel details
     return render_template('hotel.html', hotels=hotel_details)  # Pass data to the template
 
-# Fetch single hotel details from the database by hotel name
-def get_hotel_by_name(hotel_name):
-    connection = get_db_connection()
-    cursor = connection.cursor()
-    query = """
-        SELECT hotel_name, location, amount, rating, single_rooms_available, 
-               double_rooms_available, amenities, contact_info, image
-        FROM hotel_details WHERE hotel_name = %s
-    """
-    cursor.execute(query, (hotel_name,))
-    hotel = cursor.fetchone()  # Fetch the single row for the selected hotel
-    cursor.close()
-    connection.close()
-    return hotel
-
 # Route to handle hotel booking
 @app.route('/book_hotel/<hotel_name>', methods=['GET', 'POST'])
 def book_hotel(hotel_name):
@@ -150,6 +161,12 @@ def book_hotel(hotel_name):
     
     # If the method is GET, render the booking page with hotel details
     return render_template('book_hotel.html', hotel=hotel)
+
+# Route to display tourist places
+@app.route('/tourist_places')
+def show_tourist_places():
+    tourist_places = get_tourist_places()  # Fetch data from the DB
+    return render_template('tourist_places.html', places=tourist_places)  # Pass data to the template
 
 if __name__ == '__main__':
     app.run(debug=True)
