@@ -168,5 +168,43 @@ def show_tourist_places():
     tourist_places = get_tourist_places()  # Fetch data from the DB
     return render_template('tourist_places.html', places=tourist_places)  # Pass data to the template
 
+# Fetch tourist places and hotel details by destination
+def get_places_and_hotels(destination):
+    connection = get_db_connection()
+    cursor = connection.cursor()
+
+    # Query to fetch tourist places
+    query_places = """
+        SELECT place_name, location, opening_time, closing_time, rating, image_url 
+        FROM tourist_places 
+        WHERE location LIKE %s
+    """
+    cursor.execute(query_places, (f"%{destination}%",))
+    places = cursor.fetchall()
+
+    # Query to fetch hotel details
+    query_hotels = """
+        SELECT hotel_name, location, amount, rating, single_rooms_available, 
+               double_rooms_available, amenities, contact_info 
+        FROM hotel_details 
+        WHERE location LIKE %s
+    """
+    cursor.execute(query_hotels, (f"%{destination}%",))
+    hotels = cursor.fetchall()
+
+    cursor.close()
+    connection.close()
+    
+    return places, hotels
+
+
+# Route to handle destination search
+@app.route('/search', methods=['POST'])
+def search():
+    destination = request.form['destination']  # Get the destination from the form
+    places, hotels = get_places_and_hotels(destination)  # Fetch data from the DB
+    return render_template('search_results.html', places=places, hotels=hotels, destination=destination)
+
+
 if __name__ == '__main__':
     app.run(debug=True)

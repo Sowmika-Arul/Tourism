@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results for {{ destination }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/search_results.css') }}">
+</head>
+<body>
+    <h1>Search Results for {{ destination }}</h1>
+
+    <h2>Tourist Places</h2>
+    <div class="tourist-places-container">
+        {% for place in places %}
+        <div class="place-card">
+            <img src="{{ place[5] }}" alt="{{ place[0] }}" class="place-image">
+            <h3>{{ place[0] }}</h3>
+            <p>Location: {{ place[1] }}</p>
+            <p>Opening Time: {{ place[2] }}</p>
+            <p>Closing Time: {{ place[3] }}</p>
+            <p>Rating: {{ place[4] }}</p>
+        </div>
+        {% endfor %}
+    </div>
+
+    <h2>Hotels</h2>
+    <div class="tourist-places-container">
+        {% for hotel in hotels %}
+        <div class="place-card">
+            <h3>{{ hotel[0] }}</h3>
+            <p>Location: {{ hotel[1] }}</p>
+            <p>Price: {{ hotel[2] }}</p>
+            <p>Rating: {{ hotel[3] }}</p>
+            <p>Amenities: {{ hotel[6] }}</p>
+            <p>Contact: {{ hotel[7] }}</p>
+        </div>
+        {% endfor %}
+    </div>
+    
+    <p><a href="{{ url_for('index') }}">Back to Home</a></p>
+</body>
+</html>
