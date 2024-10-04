@@ -205,6 +205,9 @@ def search():
     places, hotels = get_places_and_hotels(destination)  # Fetch data from the DB
     return render_template('search_results.html', places=places, hotels=hotels, destination=destination)
 
+@app.route("/contact", methods=['GET'])
+def contact():
+     return render_template('contact.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
