@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Travel Packages</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
+       body {
+            font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
             background-color: #f4f4f9;
             margin: 0;
             padding: 0;
@@ -46,7 +46,6 @@
             cursor: pointer; 
         }
 
-        
         .package img {
             width: 100%;
             height: 250px; 
@@ -66,55 +65,18 @@
             transition: top 0.3s ease, transform 0.3s ease; 
         }
 
-        
         .package:hover h2 {
             top: 10px; 
             transform: translate(-50%, 0); 
         }
 
-        .details {
-            padding: 15px;
-            background-color: rgba(0, 0, 0, 0.7); 
-            color: white;
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: flex-start; 
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
 
-     
-        .package:hover .details {
-            opacity: 1;
-        }
-
-        
-        .package:hover img {
-            opacity: 0.4;
-        }
-
-       
         .package:hover {
             transform: translateY(-5px);
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
         }
 
-        .details p {
-            margin: 10px 0; 
-            font-size: 20px;
-        }
 
-        .details p strong {
-            color: #2980b9;
-        }
-
-        
         .attractions-list {
             list-style-type: disc; 
             padding: 0 0 0 20px; 
@@ -124,14 +86,8 @@
             font-size: 20px;
         }
 
-        /* Styling for price */
-        .details p:last-child {
-            font-size: 18px;
-            font-weight: bold;
-            color: #e74c3c;
-        }
-
-        #loginModal {
+        /* Modal styling */
+        #authModal {
             display: none; 
             position: fixed; 
             z-index: 999;
@@ -146,18 +102,53 @@
 
         .modal-content {
             background-color: #fefefe;
-            margin: 15% auto; 
-            padding: 20px;
-            border: 1px solid #888;
-            width: 300px; 
-            border-radius: 8px;
+            margin: 5% auto;
+            padding: 30px; /* Increased padding */
+            width: 500px; /* Increased width */
+            min-height: 400px; /* Increased height */
+            border-radius: 12px;
+            text-align: center;
+            padding-right: 10px;
         }
+
+    .modal-content label,
+    .modal-content input {
+        display: block; /* Ensures label and input are each on a new line */
+        width: 90%; /* Ensures the input takes full width */
+        margin-bottom: 15px;
+        font-size: larger; /* Adds space between form fields */
+    }
+
+    .modal-content input {
+        padding: 8px;
+        font-size: 16px;
+        border-radius: 4px;
+        border: 1px solid #ddd;
+    }
+
+    .modal-content button {
+        display: block;
+        width: 94%;
+        padding: 10px;
+        background-color: #2980b9;
+        color: white;
+        font-size: 16px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        margin-top: 10px;
+    }
+
+    .modal-content button:hover {
+        background-color: #1a5a84;
+    }
 
         .close {
             color: #aaa;
             float: right;
             font-size: 28px;
             font-weight: bold;
+            margin-right: 25px;
         }
 
         .close:hover,
@@ -167,19 +158,50 @@
             cursor: pointer;
         }
 
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 28px;
-            }
-
-            .package h2 {
-                font-size: 20px;
-            }
-
-            .details p {
-                font-size: 14px;
-            }
+        .form-container {
+            display: none;
         }
+
+        .form-container.active {
+            display: block;
+        }
+         
+        .details {
+    padding: 15px;
+    background-color: rgba(0, 0, 0, 0.7); 
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.package:hover .details {
+    opacity: 1;
+}
+
+.package:hover img {
+    opacity: 0.4;
+}
+
+.details p {
+    margin: 10px 0; 
+    font-size: 20px;
+    color: yellow; /* Set color of details text to yellow */
+}
+
+.details p strong {
+    color: white; /* Set color of labels (Hotel, Transport, etc.) to white */
+}
+
+
+
     </style>
 </head>
 <body>
@@ -189,16 +211,11 @@
     <div class="container">
         <div class="package-grid">
             {% for package in packages %}
-            <div class="package" onclick="openLoginModal()">
+            <div class="package" onclick="openAuthModal()">
                 <img src="{{ package[1] }}" alt="{{ package[0] }} image">
                 <h2>{{ package[0] }}</h2> 
                 <div class="details">
-                    <p><strong>Hotel:</strong></p>
-                    <ul class="attractions-list">
-                        {% for attraction in package[2].split(',') %}
-                        <li>{{ attraction.strip() }}</li>
-                        {% endfor %}
-                    </ul>
+                    <p><strong>Hotel:</strong> {{ package[2] }}</p>
                     <p><strong>Transport:</strong> {{ package[3] }} </p> 
                     <p><strong>Price:</strong> {{ package[4] }}</p> 
                 </div>
@@ -207,48 +224,86 @@
         </div>
     </div>
 
-
-    <div id="loginModal">
+    <!-- Signup/Login Modal -->
+    <div id="authModal">
         <div class="modal-content">
-            <span class="close" onclick="closeLoginModal()">&times;</span>
-            <h2>Login</h2>
-                <form id="loginForm" action="/login" method="post">
-                <label for="username">Username:</label>
-                <input type="text" id="username" name="username" required>
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password" required>
-                <button type="submit">Login</button>
+            <span class="close" onclick="closeAuthModal()">&times;</span>
+            <h1 id="form-title">Login</h1>
+            <form id="auth-form" action="{{ url_for('auth') }}" method="POST">
+                <!-- Login Form Fields -->
+                <div id="login-form" class="form-container active">
+                    <label for="login-username">Username</label>
+                    <input type="text" id="login-username" name="username">
+                    
+                    <label for="login-password">Password</label>
+                    <input type="password" id="login-password" name="password">
+                    
+                    <button type="submit" name="login">Login</button>
+                </div>
+                
+                <!-- Signup Form Fields -->
+                <div id="signup-form" class="form-container">
+                    <label for="signup-username">Username</label>
+                    <input type="text" id="signup-username" name="signup-username">
+                    
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email">
+                    
+                    <label for="signup-password">Password</label>
+                    <input type="password" id="signup-password" name="signup-password">
+                    
+                    <label for="phone">Phone</label>
+                    <input type="text" id="phone" name="phone">
+                    
+                    <button type="submit" name="signup">Signup</button>
+                </div>
             </form>
-            <div id="loginError" style="color:red;"></div>
+            
+            <!-- Toggle prompts -->
+            <p id="login-prompt">
+                Don't have an account? <span class="toggle-link" onclick="toggleForms()">Signup here</span>
+            </p>
+            <p id="signup-prompt" style="display: none;">
+                Already have an account? <span class="toggle-link" onclick="toggleForms()">Login here</span>
+            </p>
         </div>
     </div>
 
     <script>
-        function openLoginModal() {
-            document.getElementById('loginModal').style.display = 'block';
+        function openAuthModal() {
+            document.getElementById('authModal').style.display = 'block';
         }
 
-        function closeLoginModal() {
-            document.getElementById('loginModal').style.display = 'none';
+        function closeAuthModal() {
+            document.getElementById('authModal').style.display = 'none';
         }
 
-        function handleLogin(event) {
-            event.preventDefault();
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
+        function toggleForms() {
+            const loginForm = document.getElementById('login-form');
+            const signupForm = document.getElementById('signup-form');
+            const formTitle = document.getElementById('form-title');
+            const loginPrompt = document.getElementById('login-prompt');
+            const signupPrompt = document.getElementById('signup-prompt');
 
-            if (username === 'admin' && password === 'password') {
-                alert('Login successful! Further details will be displayed.');
-                closeLoginModal();
+            if (loginForm.classList.contains('active')) {
+                loginForm.classList.remove('active');
+                signupForm.classList.add('active');
+                formTitle.textContent = 'Signup';
+                loginPrompt.style.display = 'none';
+                signupPrompt.style.display = 'block';
             } else {
-                document.getElementById('loginError').textContent = 'Invalid username or password';
+                signupForm.classList.remove('active');
+                loginForm.classList.add('active');
+                formTitle.textContent = 'Login';
+                signupPrompt.style.display = 'none';
+                loginPrompt.style.display = 'block';
             }
         }
 
         window.onclick = function(event) {
-            const modal = document.getElementById('loginModal');
+            const modal = document.getElementById('authModal');
             if (event.target == modal) {
-                closeLoginModal();
+                closeAuthModal();
             }
         }
     </script>

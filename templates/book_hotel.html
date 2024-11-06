@@ -18,17 +18,22 @@
                 <p><strong>Location:</strong> {{ hotel[1] }}</p>
                 <p><strong>Rating:</strong> {{ hotel[3] }}</p>
                 <p><strong>Amenities:</strong> {{ hotel[6] }}</p>
+                <p><strong>Price per Night:</strong> ${{ hotel[2] }}</p> <!-- Display amount per night -->
             </div>
         </div>
         
         <!-- Right side: Booking Form -->
         <form method="POST">
-            <input type="text" name="customer_name" placeholder="Your Name" required>
-            <input type="email" name="email" placeholder="Your Email" required>
-            <input type="tel" name="phone" placeholder="Your Phone Number" required>
+            <input type="number" name="adults" placeholder="Number of Adults" required>
+            <input type="number" name="children" placeholder="Number of Children" required>
+            <select name="room_type" required>
+                <option value="">Select Room Type</option>
+                <option value="single">Single Bed</option>
+                <option value="double">Double Bed</option>
+            </select>
             <input type="number" name="rooms" placeholder="Number of Rooms" required>
-            <input type="date" name="check_in_date" placeholder="Check-in Date" required>
-            <input type="date" name="check_out_date" placeholder="Check-out Date" required>
+            <input type="date" name="check_in_date" required>
+            <input type="date" name="check_out_date" required>
             <button type="submit">Confirm Booking</button>
         </form>
     </div>

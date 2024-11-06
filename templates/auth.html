@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup/Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}">
+    <style>
+        /* Basic styles for layout */
+        .form-container {
+            display: none; /* Hide all forms initially */
+        }
+        .form-container.active {
+            display: block; /* Show the active form */
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-container">
+        <h1 id="form-title">Login</h1>
+        
+        <form id="auth-form" action="{{ url_for('auth') }}" method="POST">
+            <!-- Login Form Fields -->
+            <div id="login-form" class="form-container active">
+                <label for="login-username">Username</label>
+                <input type="text" id="login-username" name="username">
+                
+                <label for="login-password">Password</label>
+                <input type="password" id="login-password" name="password">
+                
+                <button type="submit" name="login">Login</button>
+            </div>
+            
+            <!-- Signup Form Fields -->
+            <div id="signup-form" class="form-container">
+                <label for="signup-username">Username</label>
+                <input type="text" id="signup-username" name="signup-username">
+                
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email">
+                
+                <label for="signup-password">Password</label>
+                <input type="password" id="signup-password" name="signup-password">
+                
+                <label for="phone">Phone</label>
+                <input type="text" id="phone" name="phone">
+                
+                <button type="submit" name="signup">Signup</button>
+            </div>
+        </form>
+
+        <!-- Toggle prompts -->
+        <p id="login-prompt" class="toggle-prompt">
+            Don't have an account? <span class="toggle-link" onclick="toggleForms()">Signup here</span>
+        </p>
+        <p id="signup-prompt" class="toggle-prompt" style="display: none;">
+            Already have an account? <span class="toggle-link" onclick="toggleForms()">Login here</span>
+        </p>
+    </div>
+
+    <script>
+        // JavaScript to toggle forms and prompts
+        function toggleForms() {
+            const loginForm = document.getElementById('login-form');
+            const signupForm = document.getElementById('signup-form');
+            const formTitle = document.getElementById('form-title');
+            const loginPrompt = document.getElementById('login-prompt');
+            const signupPrompt = document.getElementById('signup-prompt');
+
+            // Toggle the active class to switch between forms
+            if (loginForm.classList.contains('active')) {
+                loginForm.classList.remove('active');
+                signupForm.classList.add('active');
+                formTitle.textContent = 'Signup'; // Change title to Signup
+                
+                // Show appropriate prompt
+                loginPrompt.style.display = 'none';
+                signupPrompt.style.display = 'block';
+            } else {
+                signupForm.classList.remove('active');
+                loginForm.classList.add('active');
+                formTitle.textContent = 'Login'; // Change title to Login
+                
+                // Show appropriate prompt
+                signupPrompt.style.display = 'none';
+                loginPrompt.style.display = 'block';
+            }
+        }
+
+        // Initial state: show login form
+        document.addEventListener("DOMContentLoaded", () => {
+            toggleForms(); // Set to login initially
+        });
+    </script>
+</body>
+</html>

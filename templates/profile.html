@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
+</head>
+<body>
+    <div class="profile-container">
+        <h1>Welcome, {{ user[0] }}!</h1>
+        
+        <div class="user-info">
+            <h2>Your Information</h2>
+            <p><strong>Username:</strong> {{ user[0] }}</p>
+            <p><strong>Email:</strong> {{ user[1] }}</p>
+            <p><strong>Phone:</strong> {{ user[2] }}</p>
+        </div>
+
+        <div class="booking-info">
+            <h2>Your Bookings</h2>
+            {% if bookings %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Hotel</th>
+                            <th>Rooms</th>
+                            <th>Check-In</th>
+                            <th>Check-Out</th>
+                            <th>Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for booking in bookings %}
+                        <tr>
+                            <td>{{ booking[0] }}</td> <!-- Hotel name -->
+                            <td>{{ booking[1] }}</td> <!-- Number of rooms -->
+                            <td>{{ booking[2] }}</td> <!-- Check-in date -->
+                            <td>{{ booking[3] }}</td> <!-- Check-out date -->
+                            <td>${{ booking[4] }}</td> <!-- Amount -->
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>You have no bookings yet.</p>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

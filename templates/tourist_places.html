@@ -8,6 +8,13 @@
 </head>
 <body>
     <h1>Tourist Places</h1>
+    
+    <!-- Search Form for Location -->
+    <form action="{{ url_for('search_places') }}" method="GET" class="search-form">
+        <input type="text" name="location" placeholder="Enter location" required>
+        <button type="submit">Search</button>
+    </form>
+
     <div class="tourist-places-container">
         {% for place in places %}
         <div class="place-card">

@@ -7,36 +7,74 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/search_results.css') }}">
 </head>
 <body>
-    <h1>Search Results for {{ destination }}</h1>
-
-    <h2>Tourist Places</h2>
-    <div class="tourist-places-container">
-        {% for place in places %}
-        <div class="place-card">
-            <img src="{{ place[5] }}" alt="{{ place[0] }}" class="place-image">
-            <h3>{{ place[0] }}</h3>
-            <p>Location: {{ place[1] }}</p>
-            <p>Opening Time: {{ place[2] }}</p>
-            <p>Closing Time: {{ place[3] }}</p>
-            <p>Rating: {{ place[4] }}</p>
+    <div class="container">
+        <!-- Sidebar with links -->
+        <div class="sidebar">
+            <button class="tablink" onclick="openTab('tourist-places')">Tourist Places</button>
+            <button class="tablink" onclick="openTab('hotels')">Hotels</button>
+            <button class="tablink" onclick="openTab('transport')">Transport</button>
         </div>
-        {% endfor %}
+
+        <!-- Main Content Area -->
+        <div class="main-content">
+            <!-- Tourist Places Section -->
+            <div id="tourist-places" class="tab-content">
+                <h2>Tourist Places</h2>
+                <div class="tourist-places-container">
+                    {% for place in places %}
+                    <div class="place-card">
+                        <img src="{{ place[5] }}" alt="{{ place[0] }}" class="place-image">
+                        <h3>{{ place[0] }}</h3>
+                        <p>Location: {{ place[1] }}</p>
+                        <p>Opening Time: {{ place[2] }}</p>
+                        <p>Closing Time: {{ place[3] }}</p>
+                        <p>Rating: {{ place[4] }}</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Hotels Section -->
+            <div id="hotels" class="tab-content" style="display: none;">
+                <h2>Hotels</h2>
+                <div class="tourist-places-container">
+                    {% for hotel in hotels %}
+                    <div class="place-card">
+                        <img src="{{ hotel[8] }}" alt="{{ hotel[0] }}" class="place-image"> 
+                        <h3>{{ hotel[0] }}</h3>
+                        <p>Location: {{ hotel[1] }}</p>
+                        <p>Price: {{ hotel[2] }}</p>
+                        <p>Rating: {{ hotel[3] }}</p>
+                        <p>Amenities: {{ hotel[6] }}</p>
+                        <p>Contact: {{ hotel[7] }}</p>
+                        <a href="/book_hotel/{{ hotel[0] }}" class="book-now-btn">Book Now</a>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Transport Section -->
+            <div id="transport" class="tab-content" style="display: none;">
+                <h2>Transport</h2>
+                <!-- Transport content will go here -->
+                <p>Details about transport services in {{ destination }} will be listed here.</p>
+            </div>
+        </div>
     </div>
 
-    <h2>Hotels</h2>
-    <div class="tourist-places-container">
-        {% for hotel in hotels %}
-        <div class="place-card">
-            <h3>{{ hotel[0] }}</h3>
-            <p>Location: {{ hotel[1] }}</p>
-            <p>Price: {{ hotel[2] }}</p>
-            <p>Rating: {{ hotel[3] }}</p>
-            <p>Amenities: {{ hotel[6] }}</p>
-            <p>Contact: {{ hotel[7] }}</p>
-        </div>
-        {% endfor %}
-    </div>
-    
-    <p><a href="{{ url_for('index') }}">Back to Home</a></p>
+    <!-- JavaScript to handle tab switching -->
+    <script>
+        function openTab(tabName) {
+            // Hide all tab content
+            var i, tabcontent;
+            tabcontent = document.getElementsByClassName("tab-content");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+
+            // Show the specific tab content
+            document.getElementById(tabName).style.display = "block";
+        }
+    </script>
 </body>
 </html>
