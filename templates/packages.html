@@ -4,208 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Travel Packages</title>
-    <style>
-       body {
-            font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-            background-color: #f4f4f9;
-            margin: 0;
-            padding: 0;
-            color: #333;
-            line-height: 1.6;
-        }
-
-        h1 {
-            text-align: center;
-            margin-top: 30px;
-            font-size: 36px;
-            color: #333;
-        }
-
-        .container {
-            width: 90%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 5px;
-        }
-
-        .package-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
-            margin-top: 30px;
-        }
-
-        .package {
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            position: relative;
-            width: 100%;
-            cursor: pointer; 
-        }
-
-        .package img {
-            width: 100%;
-            height: 250px; 
-            object-fit: cover;
-            display: block;
-        }
-
-        .package h2 {
-            font-size: 24px;
-            color: #fff;
-            margin: 0;
-            position: absolute;
-            top: 50%; 
-            left: 50%; 
-            transform: translate(-50%, -50%); 
-            z-index: 2;
-            transition: top 0.3s ease, transform 0.3s ease; 
-        }
-
-        .package:hover h2 {
-            top: 10px; 
-            transform: translate(-50%, 0); 
-        }
-
-
-        .package:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-        }
-
-
-        .attractions-list {
-            list-style-type: disc; 
-            padding: 0 0 0 20px; 
-            margin: 5px 0;
-            text-align: left; 
-            width: 100%; 
-            font-size: 20px;
-        }
-
-        /* Modal styling */
-        #authModal {
-            display: none; 
-            position: fixed; 
-            z-index: 999;
-            left: 0;
-            top: 0;
-            width: 100%; 
-            height: 100%; 
-            overflow: auto; 
-            background-color: rgba(0,0,0,0.5); 
-            padding-top: 60px;
-        }
-
-        .modal-content {
-            background-color: #fefefe;
-            margin: 5% auto;
-            padding: 30px; /* Increased padding */
-            width: 500px; /* Increased width */
-            min-height: 400px; /* Increased height */
-            border-radius: 12px;
-            text-align: center;
-            padding-right: 10px;
-        }
-
-    .modal-content label,
-    .modal-content input {
-        display: block; /* Ensures label and input are each on a new line */
-        width: 90%; /* Ensures the input takes full width */
-        margin-bottom: 15px;
-        font-size: larger; /* Adds space between form fields */
-    }
-
-    .modal-content input {
-        padding: 8px;
-        font-size: 16px;
-        border-radius: 4px;
-        border: 1px solid #ddd;
-    }
-
-    .modal-content button {
-        display: block;
-        width: 94%;
-        padding: 10px;
-        background-color: #2980b9;
-        color: white;
-        font-size: 16px;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        margin-top: 10px;
-    }
-
-    .modal-content button:hover {
-        background-color: #1a5a84;
-    }
-
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-            margin-right: 25px;
-        }
-
-        .close:hover,
-        .close:focus {
-            color: black;
-            text-decoration: none;
-            cursor: pointer;
-        }
-
-        .form-container {
-            display: none;
-        }
-
-        .form-container.active {
-            display: block;
-        }
-         
-        .details {
-    padding: 15px;
-    background-color: rgba(0, 0, 0, 0.7); 
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.package:hover .details {
-    opacity: 1;
-}
-
-.package:hover img {
-    opacity: 0.4;
-}
-
-.details p {
-    margin: 10px 0; 
-    font-size: 20px;
-    color: yellow; /* Set color of details text to yellow */
-}
-
-.details p strong {
-    color: white; /* Set color of labels (Hotel, Transport, etc.) to white */
-}
-
-
-
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/packages.css') }}">
 </head>
 <body>
 
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo">Tripster</div>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/hotels">Hotels</a></li>
+            <li><a href="/tourist_places">Tourist Places</a></li>
+            <li><a href="/contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- Page Title -->
     <h1>Available Travel Packages</h1>
 
     <div class="container">

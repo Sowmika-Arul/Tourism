@@ -19,9 +19,9 @@ h1 {
     background-color: white;
     padding: 20px;
     border-radius: 8px; 
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Shadow for depth */
-    margin: 0 auto; /* Center the container */
-    max-width: 800px; /* Set a max width for the container */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); 
+    margin: 0 auto; 
+    max-width: 800px;
 }
 
 .hotel-details-container {
@@ -51,13 +51,13 @@ p {
 form {
     background-color: white;
     padding: 20px;
-    border-radius: 8px; /* Rounded corners for the form */
+    border-radius: 8px; 
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Shadow for depth */
     max-width: 350px; /* Set a max width for the form */
     margin-left: 20px; /* Space from the hotel details */
     flex: 1; /* Allow form to take remaining space */
     display: flex;
-    flex-direction: column; /* Stack the form elements vertically */
+    flex-direction: column; 
     justify-content: space-between; /* Evenly distribute space */
 }
 

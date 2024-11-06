@@ -7,9 +7,18 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/tourist_places.css') }}"> <!-- Link to your CSS file -->
 </head>
 <body>
+    <nav class="navbar">
+        <div class="brand">Tripster</div>
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="/hotels">Hotels</a></li>
+            <li><a href="/packages">Packages</a></li>
+            <li><a href="/contact">Contact</a></li>
+        </ul>
+    </nav>
+
     <h1>Tourist Places</h1>
     
-    <!-- Search Form for Location -->
     <form action="{{ url_for('search_places') }}" method="GET" class="search-form">
         <input type="text" name="location" placeholder="Enter location" required>
         <button type="submit">Search</button>
@@ -18,12 +27,12 @@
     <div class="tourist-places-container">
         {% for place in places %}
         <div class="place-card">
-            <img src="{{ place[5] }}" alt="Image of {{ place[0] }}" class="place-image"> <!-- Display place image -->
-            <h2>{{ place[0] }}</h2> <!-- Place Name -->
-            <p>Location: {{ place[1] }}</p> <!-- Location -->
-            <p>Opening Time: {{ place[2] }}</p> <!-- Opening Time -->
-            <p>Closing Time: {{ place[3] }}</p> <!-- Closing Time -->
-            <p>Rating: {{ place[4] }}</p> <!-- Rating -->
+            <img src="{{ place[5] }}" alt="Image of {{ place[0] }}" class="place-image"> 
+            <h2>{{ place[0] }}</h2> 
+            <p>Location: {{ place[1] }}</p> 
+            <p>Opening Time: {{ place[2] }}</p> 
+            <p>Closing Time: {{ place[3] }}</p> 
+            <p>Rating: {{ place[4] }}</p>
         </div>
         {% endfor %}
     </div>

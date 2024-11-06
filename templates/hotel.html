@@ -4,143 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hotel Details</title>
-    <style>
-
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            color: #333;
-            margin: 0;
-            padding: 0;
-        }
-
-        h1 {
-            text-align: center;
-            color: #2c3e50;
-            margin-top: 20px;
-        }
-
-    
-        form {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 20px;
-        }
-
-        input[type="text"] {
-            padding: 10px;
-            margin-right: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            width: 200px;
-        }
-
-        button {
-            padding: 10px 15px;
-            background-color: #2980b9;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        button:hover {
-            background-color: #3498db;
-        }
-
-        table {
-            width: 80%;
-            margin: 0 auto;
-            border-collapse: collapse;
-            background-color: white;
-            border: 1px solid #ddd;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        thead {
-            background-color: #2c3e50;
-            color: white;
-        }
-
-        th, td {
-            padding: 12px;
-            text-align: center;
-            border-bottom: 1px solid #ddd;
-        }
-
-        tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
-
-        /* Book Now Button Styling */
-        .book-btn {
-            background-color: #27ae60;
-            color: white;
-            padding: 8px 12px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .book-btn:hover {
-            background-color: #2ecc71;
-        }
-
-        /* Image Styling */
-        .hotel-image {
-            width: 100px;
-            height: 75px;
-            object-fit: cover;
-            border-radius: 5px;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            table, thead, tbody, th, td, tr {
-                display: block;
-                width: 100%;
-            }
-
-            th {
-                display: none;
-            }
-
-            td {
-                position: relative;
-                padding-left: 50%;
-            }
-
-            td::before {
-                content: attr(data-label);
-                position: absolute;
-                left: 0;
-                padding-left: 10px;
-                font-weight: bold;
-            }
-
-            .hotel-image {
-                width: 100%;
-                height: auto;
-            }
-        }
-
-        /* Back to Home Link */
-        a {
-            text-align: center;
-            display: block;
-            margin-top: 20px;
-            color: #2980b9;
-            text-decoration: none;
-        }
-
-        a:hover {
-            text-decoration: underline;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/hotel.css') }}">
 </head>
 <body>
+    <nav class="navbar">
+        <div class="brand">Tripster</div>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/packages">Packages</a></li>
+            <li><a href="/tourist_places">Tourist Places</a></li>
+            <li><a href="/contact">Contact</a></li>
+        </ul>
+    </nav>
+
     <h1>Hotel Details</h1>
 
     <!-- Search Form -->
@@ -161,7 +37,7 @@
                 <th>Double Rooms</th>
                 <th>Amenities</th>
                 <th>Contact Info</th>
-                <th>Book Now</th> <!-- New column for the button -->
+                <th>Book Now</th>
             </tr>
         </thead>
         <tbody>
@@ -176,10 +52,9 @@
                 <td>{{ hotel[6] }}</td>
                 <td>{{ hotel[7] }}</td>
                 <td>
-                    <!-- Book Now Button -->
                     <form method="GET" action="{{ url_for('book_hotel', hotel_name=hotel[0]) }}">
                         <button type="submit" class="book-btn">Book Now</button>
-                    </form>                    
+                    </form>
                 </td>
             </tr>
             {% endfor %}

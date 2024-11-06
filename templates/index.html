@@ -6,7 +6,6 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
 </head>
 <body>
-    <!-- Transparent Navbar -->
     <nav class="navbar">
         <ul>
             <li><a href="#">Home</a></li>
@@ -15,26 +14,24 @@
             <li><a href="/tourist_places">Tourist Places</a></li>
             <li><a href="/contact">Contact</a></li>
         </ul>
-        <!-- Login Button -->
         <a href="/auth" class="login-btn">Signup</a>
     </nav>
 
-    <!-- Main Content Area -->
     <div class="hero">
         <div class="content">
             <h1>Discover Your Next Adventure</h1>
             <p>Explore beautiful destinations, choose your dates, and embark on an unforgettable journey.</p>
         </div>
 
-        <!-- Inputs for Destination -->
+
         <form action="/search" method="POST" class="inputs">
-            <!-- Text Input for Entering Place Name -->
+
             <input type="text" id="destination" name="destination" class="dropdown" placeholder="Enter Destination" required>
 
-            <!-- Date Input for Selecting Date -->
+         
             <input type="date" id="travel-date" class="dropdown" min="" required>
 
-            <!-- Dropdown for Number of Days -->
+          
             <select id="days" class="dropdown" required>
                 <option value="" disabled selected>Number of Days</option>
                 <option value="3">3 Days</option>
@@ -43,23 +40,18 @@
                 <option value="10">10 Days</option>
             </select>
 
-            <!-- Submit Button -->
             <button class="submit-btn">Submit</button>
         </form>
     </div>
 
-    <!-- Script to Set Minimum Date -->
     <script>
-        // Get the current date
         var today = new Date();
         var day = String(today.getDate()).padStart(2, '0');
-        var month = String(today.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+        var month = String(today.getMonth() + 1).padStart(2, '0'); 
         var year = today.getFullYear();
 
-        // Format the date as yyyy-mm-dd
         var minDate = year + '-' + month + '-' + day;
 
-        // Set the min attribute of the date input to today's date
         document.getElementById('travel-date').setAttribute('min', minDate);
     </script>
 </body>

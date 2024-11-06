@@ -7,22 +7,20 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/book_hotel.css') }}">
 </head>
 <body>
+    
     <h1>Book {{ hotel[0] }}</h1>
     
-    <!-- Main container for image/details and form -->
     <div class="container">
-        <!-- Left side: Image and details -->
         <div class="hotel-details-container">
-            <img src="{{ hotel[8] }}" alt="Image of {{ hotel[0] }}" class="hotel-image"> <!-- Display hotel image -->
+            <img src="{{ hotel[8] }}" alt="Image of {{ hotel[0] }}" class="hotel-image">
             <div class="hotel-info">
                 <p><strong>Location:</strong> {{ hotel[1] }}</p>
                 <p><strong>Rating:</strong> {{ hotel[3] }}</p>
                 <p><strong>Amenities:</strong> {{ hotel[6] }}</p>
-                <p><strong>Price per Night:</strong> ${{ hotel[2] }}</p> <!-- Display amount per night -->
+                <p><strong>Price per Night:</strong> {{ hotel[2] }}</p> 
             </div>
         </div>
         
-        <!-- Right side: Booking Form -->
         <form method="POST">
             <input type="number" name="adults" placeholder="Number of Adults" required>
             <input type="number" name="children" placeholder="Number of Children" required>
