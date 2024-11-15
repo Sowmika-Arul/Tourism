@@ -16,24 +16,31 @@
             <li><a href="/hotels">Hotels</a></li>
             <li><a href="/tourist_places">Tourist Places</a></li>
             <li><a href="/contact">Contact</a></li>
+            <a href="{{ url_for('logout') }}">Logout</a>
         </ul>
     </nav>
 
     <!-- Page Title -->
     <h1>Available Travel Packages</h1>
+    <p><center>All packages will be for a week</center></p>
 
     <div class="container">
         <div class="package-grid">
             {% for package in packages %}
-            <div class="package" onclick="openAuthModal()">
+            <div class="package" onclick="selectPackage('{{ package[0] }}')">
                 <img src="{{ package[1] }}" alt="{{ package[0] }} image">
-                <h2>{{ package[0] }}</h2> 
+                <h2>{{ package[0] }}</h2>
                 <div class="details">
                     <p><strong>Hotel:</strong> {{ package[2] }}</p>
-                    <p><strong>Transport:</strong> {{ package[3] }} </p> 
-                    <p><strong>Price:</strong> {{ package[4] }}</p> 
+                    <p><strong>Transport:</strong> {{ package[3] }} </p>
+                    <p><strong>Price:</strong> {{ package[4] }}</p>
                 </div>
             </div>
+
+            <!-- Hidden form for submitting the selected package -->
+            <form id="select-form-{{ package[0] }}" action="{{ url_for('store_selected_package', package_name=package[0]) }}" method="POST" style="display:none;">
+                <!-- Form will store the selected package for the user -->
+            </form>
             {% endfor %}
         </div>
     </div>
@@ -120,6 +127,14 @@
                 closeAuthModal();
             }
         }
+
+        // Function to submit the hidden form when a package is clicked
+        function selectPackage(packageName) {
+            // First, store the selected package and trigger login modal
+            // This step assumes a session store where the backend tracks the selected package
+            document.getElementById('select-form-' + packageName).submit();
+        }
     </script>
+
 </body>
 </html>

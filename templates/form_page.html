@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Your Package</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 80%;
+            max-width: 960px;
+            margin: 40px auto;
+            background-color: #34495e;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .container:hover {
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 36px;
+            color: #ecf0f1;
+            margin-bottom: 30px;
+        }
+
+        .package-details {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .package-details img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .package-details p {
+            font-size: 18px;
+            margin: 12px 0;
+        }
+
+        .package-details strong {
+            color: #1abc9c;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        label {
+            font-size: 18px;
+            color: #ecf0f1;
+            margin-bottom: 10px;
+        }
+
+        input[type="date"] {
+            padding: 10px;
+            font-size: 16px;
+            margin-bottom: 20px;
+            border: 2px solid #1abc9c;
+            border-radius: 8px;
+            background-color: #34495e;
+            color: #ecf0f1;
+            width: 100%;
+            max-width: 300px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        input[type="date"]:focus {
+            border-color: #16a085;
+        }
+
+        button {
+            background-color: #1abc9c;
+            color: #fff;
+            padding: 12px 30px;
+            font-size: 18px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #16a085;
+        }
+
+        .logout-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .logout-link a {
+            color: #e74c3c;
+            font-weight: bold;
+            text-decoration: none;
+            font-size: 18px;
+            transition: color 0.3s ease;
+        }
+
+        .logout-link a:hover {
+            color: #c0392b;
+        }
+
+        .error-message {
+            color: #e74c3c;
+            font-size: 20px;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .success-message {
+            color: #2ecc71;
+            font-size: 20px;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                width: 90%;
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 28px;
+            }
+
+            .package-details p {
+                font-size: 16px;
+            }
+
+            button {
+                padding: 10px 25px;
+                font-size: 16px;
+            }
+
+            input[type="date"] {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Book Your Package</h1>
+
+        {% if selected_package %}
+        <div class="package-details">
+            <p>Welcome, {{ session['username'] }}</p>
+            <img src="{{ selected_package['image_url'] }}" alt="{{ selected_package['destination_name'] }}">
+            <p><strong>Hotel:</strong> {{ selected_package['hotel'] }}</p>
+            <p><strong>Transport:</strong> {{ selected_package['transport'] }}</p>
+            <p><strong>Price:</strong> ${{ selected_package['amount'] }}</p>
+        </div>
+
+        <form action="{{ url_for('book_package', package_name=request.args.get('package_name')) }}" method="POST">
+            <input type="hidden" name="package_name" value="{{ selected_package['destination_name'] }}">
+            
+            <label for="date">Select Date:</label>
+            <input type="date" id="date" name="date" required>
+            
+            <button type="submit">Book Now</button>
+        </form>
+        {% else %}
+        <div class="error-message">
+            <p>No package selected. Please select a package first.</p>
+        </div>
+        {% endif %}
+        
+        <div class="logout-link">
+            <a href="{{ url_for('logout') }}">Logout</a>
+        </div>
+    </div>
+</body>
+</html>

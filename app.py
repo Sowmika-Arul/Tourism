@@ -120,6 +120,10 @@ def show_hotel_details():
 def book_hotel(hotel_name):
     # Fetch hotel details
     hotel = get_hotel_by_name(hotel_name)
+
+    # Check if the user is logged in (username is stored in session)
+    if 'username' not in session:
+        return redirect(url_for('auth'))  # Redirect to the login/signup page
     
     if request.method == 'POST':
         # Get booking details from the form
@@ -164,7 +168,7 @@ def show_tourist_places():
     tourist_places = get_tourist_places()  # Fetch data from the DB
     return render_template('tourist_places.html', places=tourist_places)  # Pass data to the template
 
-# Fetch tourist places and hotel details by destination
+# Fetch tourist places, hotel details, and transport information by destination
 def get_places_and_hotels(destination):
     connection = get_db_connection()
     cursor = connection.cursor()
@@ -188,18 +192,27 @@ def get_places_and_hotels(destination):
     cursor.execute(query_hotels, (f"%{destination}%",))
     hotels = cursor.fetchall()
 
+    # Query to fetch transport details
+    query_transport = """
+        SELECT from_place, to_place, mode_of_transport, travel_time 
+        FROM transport 
+        WHERE from_place LIKE %s OR to_place LIKE %s
+    """
+    cursor.execute(query_transport, (f"%{destination}%", f"%{destination}%"))
+    transport = cursor.fetchall()
+
     cursor.close()
     connection.close()
     
-    return places, hotels
+    return places, hotels, transport
 
 
 # Route to handle destination search
 @app.route('/search', methods=['POST'])
 def search():
     destination = request.form['destination']  # Get the destination from the form
-    places, hotels = get_places_and_hotels(destination)  # Fetch data from the DB
-    return render_template('search_results.html', places=places, hotels=hotels, destination=destination)
+    places, hotels, transport = get_places_and_hotels(destination)  # Fetch places, hotels, and transport from the DB
+    return render_template('search_results.html', places=places, hotels=hotels, transport=transport, destination=destination)
 
 @app.route("/contact", methods=['GET'])
 def contact():
@@ -221,8 +234,9 @@ def profile():
     username = session['username']
     user_info = get_user_info(username)
     bookings = get_user_bookings(username)
+    package_bookings = get_user_book(username)
     
-    return render_template('profile.html', user=user_info, bookings = bookings)
+    return render_template('profile.html', user=user_info, bookings = bookings, package_bookings = package_bookings)
 
 # Function to fetch user info (assuming there's a 'users' table with basic user data)
 def get_user_info(username):
@@ -251,15 +265,89 @@ def get_user_bookings(username):
     connection.close()
     return bookings
 
-# Route to display the signup/login page and handle signup/login
+# Function to fetch user bookings
+def get_user_book(username):
+    connection = get_db_connection()
+    cursor = connection.cursor()
+    query = """
+        SELECT package_name ,hotel, transport, price, booking_date
+        FROM pack_bookings
+        WHERE username = %s
+        ORDER BY booking_date DESC
+    """
+    cursor.execute(query, (username,))
+    package_bookings = cursor.fetchall()
+    cursor.close()
+    connection.close()
+    return package_bookings
+
+
+@app.route('/book_package', methods=['GET', 'POST'])
+def book_package():
+    # Get the package name from the URL parameters
+    package_name = request.args.get('package_name')
+    print(package_name)
+    # Fetch the selected package details from the database based on the package_name
+    connection = get_db_connection()
+    cursor = connection.cursor(dictionary=True)
+    
+    # Fetch package details from the database
+    query = "SELECT * FROM travel_packages WHERE destination_name = %s"
+    formatted_query = query % repr(package_name)
+    print(formatted_query)
+    cursor.execute(query, (package_name,))
+    selected_package = cursor.fetchone()
+    print(selected_package);
+    
+    if request.method == 'POST':
+        # Handle the booking logic when the form is submitted
+        booking_date = request.form['date']
+        username = session.get('username')  # Assuming username is stored in the session
+
+        # Ensure the user is logged in
+        if not username:
+            flash('You must be logged in to book a package.', 'danger')
+            return redirect(url_for('auth'))  # Redirect to the login/signup page if not logged in
+        
+        # Insert the booking details into the database
+        query = """
+            INSERT INTO pack_bookings (username, package_name, hotel, transport, price, booking_date)
+            VALUES (%s, %s, %s, %s, %s, %s)
+        """
+        cursor.execute(query, (
+            username,
+            selected_package['destination_name'],
+            selected_package['hotel'],
+            selected_package['transport'],
+            selected_package['amount'],
+            booking_date
+        ))
+        connection.commit()
+        
+        flash('Your booking is confirmed!', 'success')
+        return redirect(url_for('profile'))  # Redirect to the same page
+    
+    cursor.close()
+    connection.close()
+    
+    return render_template('form_page.html', selected_package=selected_package)
+
+@app.route('/select_package/<package_name>', methods=['POST'])
+def store_selected_package(package_name):
+    # Store the selected package in the session
+    session['selected_package'] = package_name
+    return redirect(url_for('auth'))  # Redirect to login page if not logged in
+
+
+# Route to handle user signup/login
 @app.route('/auth', methods=['GET', 'POST'])
 def auth():
     if request.method == 'POST':
         if 'signup' in request.form:
             # Handle signup
-            username = request.form['signup-username']  # Changed to match the new input name
+            username = request.form['signup-username']
             email = request.form['email']
-            password = request.form['signup-password']  # Changed to match the new input name
+            password = request.form['signup-password']
             phone = request.form['phone']
             
             # Insert user details into the database
@@ -279,8 +367,8 @@ def auth():
         
         elif 'login' in request.form:
             # Handle login
-            username = request.form['username']  # This should remain as it is
-            password = request.form['password']  # This should remain as it is
+            username = request.form['username']
+            password = request.form['password']
             
             # Validate user credentials
             connection = get_db_connection()
@@ -289,22 +377,30 @@ def auth():
             cursor.execute(query, (username, password))
             user = cursor.fetchone()
             cursor.close()
-            connection.close()
+            connection.close()  
             
             if user:
                 session['username'] = username
                 flash('Login successful!', 'success')
-                return redirect(url_for('profile'))  # Redirect to the profile page
+
+                # Check if there's a selected package in the session
+                if 'selected_package' in session:
+                    selected_package = session['selected_package']
+                    return redirect(url_for('book_package', package_name=selected_package))  # Redirect to booking page
+                else:
+                    return redirect(url_for('profile')) 
+                 # Or any default page after  # Or any default page after login
             else:
                 flash('Invalid username or password', 'danger')
     
-    return render_template('auth.html')  # Render the combined login/signup page
+    return render_template('auth.html')  # Render the login/signup page
+
 
 @app.route('/logout')
 def logout():
-    session.pop('username', None)
+    session.clear()  # This clears all session data, not just the username
     flash('You have been logged out.', 'info')
-    return redirect(url_for('login'))
+    return redirect(url_for('index'))  # Redirect to login or home page
 
 if __name__ == '__main__':
     app.run(debug=True)

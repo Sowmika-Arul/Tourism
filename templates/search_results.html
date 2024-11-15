@@ -7,6 +7,19 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/search_results.css') }}">
 </head>
 <body>
+
+    <nav class="navbar">
+        <div class="brand">Tripster</div>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/packages">Packages</a></li>
+            <li><a href="/tourist_places">Tourist Places</a></li>
+            <li><a href="/contact">Contact</a></li>
+            <a href="{{ url_for('logout') }}">Logout</a>
+        </div>
+        </ul>
+    </nav>
+    
     <div class="container">
         <!-- Sidebar with links -->
         <div class="sidebar">
@@ -43,7 +56,7 @@
                         <img src="{{ hotel[8] }}" alt="{{ hotel[0] }}" class="place-image"> 
                         <h3>{{ hotel[0] }}</h3>
                         <p>Location: {{ hotel[1] }}</p>
-                        <p>Price: {{ hotel[2] }}</p>
+                        <p>Price: ₹{{ hotel[2] }}</p>
                         <p>Rating: {{ hotel[3] }}</p>
                         <p>Amenities: {{ hotel[6] }}</p>
                         <p>Contact: {{ hotel[7] }}</p>
@@ -56,8 +69,21 @@
             <!-- Transport Section -->
             <div id="transport" class="tab-content" style="display: none;">
                 <h2>Transport</h2>
-                <!-- Transport content will go here -->
-                <p>Details about transport services in {{ destination }} will be listed here.</p>
+                <div class="transport-container">
+                    {% if transport %}
+                        <ul>
+                            {% for transport_item in transport %}
+                            <li class="transport-card">
+                                <p><strong>From:</strong> {{ transport_item[0] }} <strong>To:</strong> {{ transport_item[1] }}</p>
+                                <p><strong>Mode of Transport:</strong> {{ transport_item[2] }}</p>
+                                <p><strong>Travel Time:</strong> {{ transport_item[3] }}</p>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p>No transport options available for this destination.</p>
+                    {% endif %}
+                </div>
             </div>
         </div>
     </div>

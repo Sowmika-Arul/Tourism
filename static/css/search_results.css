@@ -18,7 +18,7 @@ body {
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
     position: fixed;
     top: 150px;
-    left: 70px;
+    left: 30px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -131,4 +131,102 @@ h2 {
         margin-left: 0;
         width: 100%;
     }
+}
+
+/* Transport section styling */
+.transport-container {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.transport-container ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.transport-card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.transport-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.transport-card p {
+    font-size: 16px;
+    color: #555;
+    margin: 5px 0;
+}
+
+.transport-card p strong {
+    color: #333;
+}
+
+.transport-card:last-child {
+    margin-bottom: 0;
+}
+
+/* Fallback message when no transport is available */
+.transport-container p {
+    font-size: 18px;
+    color: #888;
+    text-align: center;
+    font-style: italic;
+}
+
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+    background-color: rgba(44, 62, 80, 0.9);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    font-size: 20px;
+}
+
+.navbar .brand {
+    font-size: 24px;
+    color: white;
+    font-weight: bold;
+}
+
+.navbar ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 20px;
+}
+
+.navbar li {
+    display: inline;
+}
+
+.navbar a {
+    color: #ecf0f1;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+.navbar a:hover {
+    color: #1abc9c;
+    text-decoration: none;
+}
+
+.logo{
+    color: white;
 }

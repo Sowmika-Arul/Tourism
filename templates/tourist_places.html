@@ -10,10 +10,11 @@
     <nav class="navbar">
         <div class="brand">Tripster</div>
         <ul>
-            <li><a href="#">Home</a></li>
+            <li><a href="/">Home</a></li>
             <li><a href="/hotels">Hotels</a></li>
             <li><a href="/packages">Packages</a></li>
             <li><a href="/contact">Contact</a></li>
+            <a href="{{ url_for('logout') }}">Logout</a>
         </ul>
     </nav>
 

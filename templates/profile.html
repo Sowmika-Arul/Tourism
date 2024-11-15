@@ -7,6 +7,18 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
 </head>
 <body>
+    <nav class="navbar">
+        <div class="logo">Tripster</div>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/hotels">Hotels</a></li>
+            <li><a href="/packages">Packages</a></li>
+            <li><a href="/tourist_places">Tourist Places</a></li>
+            <li><a href="/contact">Contact</a></li>
+            <a href="{{ url_for('logout') }}">Logout</a>
+        </ul>
+    </nav><br>
+
     <div class="profile-container">
         <h1>Welcome, {{ user[0] }}!</h1>
         
@@ -42,9 +54,40 @@
                         {% endfor %}
                     </tbody>
                 </table>
-            {% else %}
+                {% else %}
                 <p>You have no bookings yet.</p>
             {% endif %}
+            
+        <!-- Package Bookings Section -->
+        <div class="package-booking-info">
+            <h2>Your Package Bookings (For a week)</h2>
+            {% if package_bookings %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Package Name</th>
+                            <th>Hotel</th>
+                            <th>Transport</th>
+                            <th>Price</th>
+                            <th>Booking Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for package in package_bookings %}
+                        <tr>
+                            <td>{{ package[0] }}</td> <!-- Package name -->
+                            <td>{{ package[1] }}</td> <!-- Hotel -->
+                            <td>{{ package[2] }}</td> <!-- Transport -->
+                            <td>${{ package[3] }}</td> <!-- Price -->
+                            <td>{{ package[4] }}</td> <!-- Booking date -->
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>You have no package bookings yet.</p>
+            {% endif %}
+        </div>
         </div>
     </div>
 </body>
