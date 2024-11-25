@@ -37,9 +37,7 @@
                 </div>
             </div>
 
-            <!-- Hidden form for submitting the selected package -->
             <form id="select-form-{{ package[0] }}" action="{{ url_for('store_selected_package', package_name=package[0]) }}" method="POST" style="display:none;">
-                <!-- Form will store the selected package for the user -->
             </form>
             {% endfor %}
         </div>
@@ -128,10 +126,8 @@
             }
         }
 
-        // Function to submit the hidden form when a package is clicked
+
         function selectPackage(packageName) {
-            // First, store the selected package and trigger login modal
-            // This step assumes a session store where the backend tracks the selected package
             document.getElementById('select-form-' + packageName).submit();
         }
     </script>
