@@ -33,7 +33,7 @@ label {
 input[type="text"],
 input[type="email"],
 input[type="password"] {
-    width: 100%;
+    width: 95%;
     padding: 10px;
     margin-top: 5px;
     border: 1px solid #ccc;
@@ -41,7 +41,7 @@ input[type="password"] {
 }
 
 button {
-    width: 100%;
+    width: 402px;
     padding: 10px;
     margin-top: 20px;
     background-color: #2c3e50;

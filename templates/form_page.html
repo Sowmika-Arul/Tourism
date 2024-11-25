@@ -133,6 +133,14 @@
             margin-top: 20px;
         }
 
+        .package-details p,
+        label,
+        .error-message,
+        .success-message {
+            text-align: left;
+            margin-left: 350px;
+        }
+
         @media (max-width: 768px) {
             .container {
                 width: 90%;
@@ -174,7 +182,7 @@
         <form action="{{ url_for('book_package', package_name=request.args.get('package_name')) }}" method="POST">
             <input type="hidden" name="package_name" value="{{ selected_package['destination_name'] }}">
             
-            <label for="date">Select Date:</label>
+            <label for="date" style="margin-left: 15px;">Select Date</label>
             <input type="date" id="date" name="date" required>
             
             <button type="submit">Book Now</button>
